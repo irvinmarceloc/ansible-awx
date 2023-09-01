@@ -10,6 +10,10 @@
     - command:
         cmd: "sh /home/rdqmadmin/mqsc.sh"
       become_user: rdqmadmin
+    - service:
+        name: firewalld
+        state: start
+        permanent: true
     - firewalld:
         port: "{{puerto}}/tcp"
         state: enabled
