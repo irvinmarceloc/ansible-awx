@@ -1,3 +1,4 @@
+#Pruebas para el uso de Survey con AWX
 ---
 - hosts: all
   vars:
