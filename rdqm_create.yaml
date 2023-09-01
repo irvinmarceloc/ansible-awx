@@ -13,7 +13,7 @@
     - service:
         name: firewalld
         state: started
-        permanent: true
+        enabled: true
     - firewalld:
         port: "{{puerto}}/tcp"
         state: enabled
