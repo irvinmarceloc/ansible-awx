@@ -1,8 +1,6 @@
 #Pruebas para el uso de Survey con AWX
 ---
 - hosts: all
-  vars:
-    - variable: "Hola mundo"
   tasks:
     - debug:
         msg: "{{variable}}"
