@@ -13,7 +13,7 @@ NOMBRE_QM={{nombre_gestor_colas}}
 IP_FLOTANTE={{ip_flotante}}
 PUERTO_QM={{puerto}}
 INTERFAZ={{interfaz}}
-TAMANO_QM={{tam_m}}
+TAMANO_QM={{tam_m}}M
 NOMBRE_CANAL={{canal_de_conexion}}
 USUARIO_ADMINISTRADOR={{usuario}}
 
