@@ -1,0 +1,11 @@
+---
+- hosts: all
+  tasks:
+    - template:
+        src: mqsc.j2
+        dest: /root/mqsc.sh
+        owner: root
+        mode: u=rwx,g=rwx,o=rwx
+    - command:
+        cmd: /root/mqsc.sh
+...
