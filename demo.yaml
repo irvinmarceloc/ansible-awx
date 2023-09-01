@@ -1,0 +1,7 @@
+---
+- hosts: all
+  vars:
+    - variable: "Hola mundo"
+  tasks:
+    - debug:
+        msg: "{{variable}}"
