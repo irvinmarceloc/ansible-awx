@@ -12,7 +12,7 @@
       become_user: rdqmadmin
     - service:
         name: firewalld
-        state: start
+        state: started
         permanent: true
     - firewalld:
         port: "{{puerto}}/tcp"
