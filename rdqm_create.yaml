@@ -1,0 +1,13 @@
+---
+- hosts: all
+  tasks:
+    - template:
+        src: mqsc.j2
+        dest: /home/rdqmadmin/mqsc.sh
+        owner: rdqmadmin
+        group: mqm
+        mode: u=rwx,g=rw
+    - command:
+        cmd: "sh /home/rdqmadmin/mqsc.sh"
+      become_user: rdqmadmin
+...
