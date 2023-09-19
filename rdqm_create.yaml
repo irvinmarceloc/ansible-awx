@@ -9,6 +9,7 @@
         mode: u=rwx,g=rwx,o=rwx
     - command:
         cmd: "sh /home/rdqmadmin/mqsc.sh"
+      become_user: rdqmadmin
     - service:
         name: firewalld
         state: started
