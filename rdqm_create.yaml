@@ -1,7 +1,5 @@
 ---
 - hosts: all
-  become_user: mqm
-  become: true
   tasks:
     - template:
         src: ./crtrdqm.sh 
