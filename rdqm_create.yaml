@@ -13,6 +13,8 @@
         name: firewalld
         state: started
         enabled: true
+    - command:
+        cmd: "sh /opt/mqm/samp/rdqm/firewalld/configure.sh"
     - firewalld:
         port: "{{puerto}}/tcp"
         state: enabled
