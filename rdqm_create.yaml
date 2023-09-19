@@ -1,6 +1,11 @@
 ---
 - hosts: all
   tasks:
+    - command:
+        cmd: "/opt/mqm/bin/crtmqm -sxs -fs {{tam_m}}M {{nombre_gestor_colas}}"
+      when: inventory_hostname != {{ansible_hostname}} 
+- hosts: {{ansible_hostname}}
+  tasks:
     - template:
         src: ./crtrdqm.sh 
         dest: /home/rdqmadmin/mqsc.sh
