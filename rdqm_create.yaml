@@ -7,12 +7,12 @@
         owner: rdqmadmin
         group: mqm
         mode: u=rwx,g=rwx,o=rwx
-    - service:
-        name: firewalld
-        state: started
-        enabled: true
-    - command:
-        cmd: "sh /opt/mqm/samp/rdqm/firewalld/configure.sh"
+#    - service:
+#        name: firewalld
+#        state: started
+#        enabled: true
+#    - command:
+#        cmd: "sh /opt/mqm/samp/rdqm/firewalld/configure.sh"
     - command:
         cmd: "sh /home/rdqmadmin/mqsc.sh"
       become_user: rdqmadmin
