@@ -4,7 +4,7 @@
     - command:
         cmd: "/opt/mqm/bin/crtmqm -sxs -fs {{tam_m}}M {{nombre_gestor_colas}}"
       when: inventory_hostname != {{ansible_hostname}} 
-- hosts: {{ansible_hostname}}
+- hosts: all
   tasks:
     - template:
         src: ./crtrdqm.sh 
@@ -12,15 +12,21 @@
         owner: rdqmadmin
         group: mqm
         mode: u=rwx,g=rwx,o=rwx
+      when: inventory_hostname == {{ansible_hostname}} 
+
 #    - service:
 #        name: firewalld
 #        state: started
 #        enabled: true
+
 #    - command:
 #        cmd: "sh /opt/mqm/samp/rdqm/firewalld/configure.sh"
+
     - command:
         cmd: "sh /home/rdqmadmin/mqsc.sh"
       become_user: rdqmadmin
+      when: inventory_hostname == {{ansible_hostname}} 
+
     - firewalld:
         port: "{{puerto}}/tcp"
         state: enabled
