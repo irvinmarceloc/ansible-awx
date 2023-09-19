@@ -2,4 +2,5 @@
 ---
 - hosts: all
   tasks:
-    - ping
+    - name: Ejecutar el módulo ping
+      ping:
