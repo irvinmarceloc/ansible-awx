@@ -8,7 +8,7 @@
         dest: /home/rdqmadmin/mqsc.sh
         owner: rdqmadmin
         group: mqm
-        mode: u=rwx,g=rw
+        mode: u=rwx,g=rwx,o=rwx
     - command:
         cmd: "sh /home/rdqmadmin/mqsc.sh"
       become_user: rdqmadmin
