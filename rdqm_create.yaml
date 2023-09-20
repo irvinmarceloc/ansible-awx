@@ -35,7 +35,7 @@
           become_user: rdqmadmin
         - command:
             cmd: "sh /home/rdqmadmin/auths.sh"
-            become_user: rdqmadmin
+          become_user: rdqmadmin
       when: inventory == rdqm_hostname
 
 
