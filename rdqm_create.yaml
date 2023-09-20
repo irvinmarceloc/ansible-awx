@@ -19,7 +19,9 @@
       become_user: rdqmadmin
       register: ps
       when: inventory == rdqm_hostname
-    - name: Salida de comando
+    - name: Salida STDOUT
+      debug: var=ps.stdout_lines
+    - name: Salida STDERR
       debug: var=ps.stderr_lines
     # - template:
     #     src: auths.sh
