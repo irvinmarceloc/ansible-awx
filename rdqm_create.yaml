@@ -3,7 +3,7 @@
   tasks:
     - command:
         cmd: "/opt/mqm/bin/crtmqm -sxs -fs {{tam_m}}M {{nombre_gestor_colas}}"
-      when: inventory_hostname != rdqm_hostname
+      when: inventory != rdqm_hostname
 - hosts: all
   tasks:
     - template:
