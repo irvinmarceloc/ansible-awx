@@ -1,39 +1,45 @@
 ---
 - hosts: all
   tasks:
-    - name: 'Crear gestor de colas en nodos secundarios (when: inventory != rdqm_hostname)'
-      command:
-        cmd: "/opt/mqm/bin/crtmqm -sxs -fs {{tam_m}}M {{nombre_gestor_colas}}"
+    - block:
+        - name: 'Crear gestor de colas en nodos secundarios (when: inventory != rdqm_hostname)'
+          command:
+            cmd: "/opt/mqm/bin/crtmqm -sxs -fs {{tam_m}}M {{nombre_gestor_colas}}"
       when: inventory != rdqm_hostname
-    - name: 'Copiar y rellenar template (when: inventory == rdqm_hostname)'
-      template:
-        src: ./crtrdqm.sh
-        dest: /home/rdqmadmin/mqsc.sh
-        owner: rdqmadmin
-        group: mqm
-        mode: u=rwx,g=rwx,o=rwx
+
+    - block:
+        - name: 'Copiar y rellenar template (when: inventory == rdqm_hostname)'
+          template:
+            src: ./crtrdqm.sh
+            dest: /home/rdqmadmin/mqsc.sh
+            owner: rdqmadmin
+            group: mqm
+            mode: u=rwx,g=rwx,o=rwx
+
+        - name: 'Ejecutar comandos de autorización (when: inventory == rdqm_hostname)'
+          shell:
+            cmd: "/home/rdqmadmin/mqsc.sh"
+          become_user: rdqmadmin
+          register: ps
+
+        - name: Salida STDOUT
+          debug: var=ps.stdout_lines
+        - name: Salida STDERR
+          debug: var=ps.stderr_lines
+
+        - template:
+            src: auths.sh
+            dest: /home/rdqmadmin/auths.sh
+            owner: rdqmadmin
+            mode: u=rwx,g=rwx,o=rwx
+          become_user: rdqmadmin
+        - command:
+            cmd: "sh /home/rdqmadmin/auths.sh"
+            become_user: rdqmadmin
       when: inventory == rdqm_hostname
-    - name: 'Ejecutar comandos de autorización (when: inventory == rdqm_hostname)'
-      shell:
-        cmd: "/home/rdqmadmin/mqsc.sh"
-      become_user: rdqmadmin
-      register: ps
-      when: inventory == rdqm_hostname
-    - name: Salida STDOUT
-      debug: var=ps.stdout_lines
-    - name: Salida STDERR
-      debug: var=ps.stderr_lines
-    - template:
-        src: auths.sh
-        dest: /home/rdqmadmin/auths.sh
-        owner: rdqmadmin
-        mode: u=rwx,g=rwx,o=rwx
-      become_user: rdqmadmin
-      when: inventory != rdqm_hostname
-    - command:
-        cmd: "sh /home/rdqmadmin/auths.sh"
-        become_user: rdqmadmin
-      when: inventory != rdqm_hostname
+
+
+
     # - service:
     #     name: firewalld
     #     state: started
