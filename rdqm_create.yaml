@@ -21,16 +21,16 @@
         cmd: "sh /home/rdqmadmin/mqsc.sh"
       become_user: rdqmadmin
       when: inventory == rdqm_hostname
-    - template:
-        src: auths.sh
-        dest: /home/rdqmadmin/auths.sh
-        owner: rdqmadmin
-        mode: u=rwx,g=rwx,o=rwx
-      become_user: rdqmadmin
-    - command:
-        cmd: "sh /home/rdqmadmin/auths.sh"
-      become_user: rdqmadmin
-      when: inventory != rdqm_hostname
+    # - template:
+    #     src: auths.sh
+    #     dest: /home/rdqmadmin/auths.sh
+    #     owner: rdqmadmin
+    #     mode: u=rwx,g=rwx,o=rwx
+    #   become_user: rdqmadmin
+    # - command:
+    #     cmd: "sh /home/rdqmadmin/auths.sh"
+    #   become_user: rdqmadmin
+    #   when: inventory != rdqm_hostname
     - firewalld:
         port: "{{puerto}}/tcp"
         state: enabled
