@@ -20,7 +20,7 @@
       register: ps
       when: inventory == rdqm_hostname
     - name: Salida de comando
-      debug: var=ps.sterr_lines
+      debug: var=ps.stderr_lines
     # - template:
     #     src: auths.sh
     #     dest: /home/rdqmadmin/auths.sh
