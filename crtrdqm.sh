@@ -54,4 +54,4 @@ echo "DEFINE CHANNEL($NOMBRE_CANAL) CHLTYPE(SVRCONN) TRPTYPE(TCP)" | runmqsc $NO
 # Actualizar políticas de seguridad
 echo "REFRESH SECURITY(*)" | runmqsc $NOMBRE_QM
 
-echo -e "\e[92m====[ RDQM $1 CREADO ]=====\e[0m"
+echo -e "\e[92m====[ RDQM $NOMBRE_QM CREADO ]=====\e[0m"

@@ -1,23 +1,20 @@
 ---
 - hosts: all
   tasks:
-    - command:
+    - name: Crear gestor de colas en nodos secundarios
+      command:
         cmd: "/opt/mqm/bin/crtmqm -sxs -fs {{tam_m}}M {{nombre_gestor_colas}}"
       when: inventory != rdqm_hostname
-    - template:
+    - name: 'Copiar y rellenar template (when: inventory == rdqm_hostname)'
+      template:
         src: ./crtrdqm.sh
         dest: /home/rdqmadmin/mqsc.sh
         owner: rdqmadmin
         group: mqm
         mode: u=rwx,g=rwx,o=rwx
       when: inventory == rdqm_hostname
-    # - service:
-    #     name: firewalld
-    #     state: started
-    #     enabled: true
-    # - command:
-    #     cmd: "sh /opt/mqm/samp/rdqm/firewalld/configure.sh"
-    - command:
+    - name: 'Ejecutar comandos de autorización (when: inventory == rdqm_hostname)'
+      command:
         cmd: "sh /home/rdqmadmin/mqsc.sh"
       become_user: rdqmadmin
       when: inventory == rdqm_hostname
@@ -31,7 +28,14 @@
     #     cmd: "sh /home/rdqmadmin/auths.sh"
     #   become_user: rdqmadmin
     #   when: inventory != rdqm_hostname
-    - firewalld:
+    # - servie:
+    #     name: firewalld
+    #     state: started
+    #     enabled: true
+    # - command:
+    #     cmd: "sh /opt/mqm/samp/rdqm/firewalld/configure.sh"
+    - name: Habilitar {{puerto}} puerto de firewalld
+      firewalld:
         port: "{{puerto}}/tcp"
         state: enabled
         immediate: true
