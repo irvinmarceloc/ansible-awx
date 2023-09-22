@@ -1,54 +1,62 @@
 ---
 - hosts: all
+  name: Creación de RDQM
   tasks:
-    - block:
-        - name: 'Crear gestor de colas en nodos secundarios (when: inventory != rdqm_hostname)'
-          command:
-            cmd: "/opt/mqm/bin/crtmqm -sxs -fs {{tam_m}}M {{nombre_gestor_colas}}"
+    - name: Bloque inventory != rdqm_hostname
       when: inventory != rdqm_hostname
-
-    - block:
-        - name: 'Copiar y rellenar template (when: inventory == rdqm_hostname)'
-          template:
+      block:
+        - name: 'Crear gestor de colas en nodos secundarios (when: inventory != rdqm_hostname)'
+          ansible.builtin.command:
+            cmd: "/opt/mqm/bin/crtmqm -sxs -fs {{ tam_m }}M {{ nombre_gestor_colas }}"
+          register: command
+          changed_when: command.rc != 0
+    - name: Bloque inventory == rdqm_hostname
+      when: inventory == rdqm_hostname
+      block:
+        - name: 'Copiar y rellenar template crtrdqm.sh'
+          ansible.builtin.template:
             src: ./crtrdqm.sh
             dest: /home/rdqmadmin/mqsc.sh
             owner: rdqmadmin
             group: mqm
             mode: u=rwx,g=rwx,o=rwx
-
-        - name: 'Ejecutar comandos de autorización (when: inventory == rdqm_hostname)'
-          shell:
+        - name: 'Ejecutar comandos de autorización'
+          ansible.builtin.command:
             cmd: "/home/rdqmadmin/mqsc.sh"
+          become: true
           become_user: rdqmadmin
-          register: ps
-
-        - name: Salida STDOUT
-          debug: var=ps.stdout_lines
-        - name: Salida STDERR
-          debug: var=ps.stderr_lines
-
-        - template:
+          register: command
+          changed_when: command.rc != 0
+        # - name: Salida STDOUT
+        #   debug:
+        #     var: ps.stdout_lines
+        # - name: Salida STDERR
+        #   debug:
+        #     var: ps.stderr_lines
+        - name: 'Copiar y rellenar template auths.sh'
+          ansible.builtin.template:
             src: auths.sh
             dest: /home/rdqmadmin/auths.sh
             owner: rdqmadmin
             mode: u=rwx,g=rwx,o=rwx
+          become: true
           become_user: rdqmadmin
-        - command:
+        - name: 'Ejecutar comando de autorización'
+          ansible.builtin.command:
             cmd: "sh /home/rdqmadmin/auths.sh"
+          become: true
           become_user: rdqmadmin
-      when: inventory == rdqm_hostname
-
-
-
+          register: command
+          changed_when: command.rc != 0
     # - service:
     #     name: firewalld
     #     state: started
     #     enabled: true
     # - command:
     #     cmd: "sh /opt/mqm/samp/rdqm/firewalld/configure.sh"
-    - name: Habilitar puerto {{puerto}} de firewalld
-      firewalld:
-        port: "{{puerto}}/tcp"
+    - name: Habilitar el puerto {{ puerto }}
+      ansible.posix.firewalld:
+        port: "{{ puerto }}/tcp"
         state: enabled
         immediate: true
         permanent: true
