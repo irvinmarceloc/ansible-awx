@@ -1,0 +1,69 @@
+---
+- hosts: all
+  name: Creación de DR/HA RDQM en sitio local
+  vars:
+    local_hostname: rdqm-node-3
+    remote_hostname: rdqm-node-6
+    nombre_gestor_colas: QM.BRUGADA
+    ip_flotante: 192.168.238.232
+    puerto: 10002
+    interfaz: ens161
+    tam_m: 128
+    nombre_grupo_dr: DR1
+    puerto_dr: 7004
+    canal_de_conexion: SYSTEM.ADMIN.SVRCONN
+    usuario: mquser
+    dr_remote_ips: "{{hostvars[ansible_play_hosts_all[0]].rdqm_dr_replication_remote}},\
+    {{hostvars[ansible_play_hosts_all[1]].rdqm_dr_replication_remote}},\
+    {{hostvars[ansible_play_hosts_all[2]].rdqm_dr_replication_remote}}"
+    dr_local_ips: "{{hostvars[ansible_play_hosts_all[0]].rdqm_dr_replication_local}},\
+    {{hostvars[ansible_play_hosts_all[1]].rdqm_dr_replication_local}},\
+    {{hostvars[ansible_play_hosts_all[2]].rdqm_dr_replication_local}}"
+  tasks:
+    - name: Creación DR/HA RDQM en sitio local
+      when: inventory_hostname == local_hostname
+      block:
+        - name: 'Copiar y rellenar template crtrdqm.sh'
+          ansible.builtin.template:
+            src: ./drha_crtrdqm.sh
+            dest: /home/rdqmadmin/mqsc.sh
+            owner: rdqmadmin
+            group: mqm
+            mode: u=rwx,g=rwx,o=rwx
+        - name: 'Ejecutar comandos de autorización'
+          ansible.builtin.command:
+            cmd: "/home/rdqmadmin/mqsc.sh"
+          become: true
+          become_user: rdqmadmin
+          register: command
+          changed_when: command.rc != 0
+    - name: Creación DR/HA RDQM en sitio remoto
+      when: inventory_hostname == remote_hostname
+      block:
+        - name: Ejecutar comando de creación en sitio remoto
+          ansible.builtin.command:
+            cmd: "crtmqm -sx -rr s -rl {{ dr_remote_ips }} -ri {{ dr_local_ips }} -rp {{ puerto_dr }} -fs {{ tam_m }}M {{ nombre_gestor_colas }}"
+          register: command
+          changed_when: command.rc != 0
+    - name: Habilitar puerto {{ puerto }}
+      ansible.posix.firewalld:
+        port: "{{ puerto }}/tcp"
+        state: enabled
+        immediate: true
+        permanent: true
+
+    # - service:
+    #     name: firewalld
+    #     state: started
+    #     enabled: true
+    # - command:
+    #     cmd: "sh /opt/mqm/samp/rdqm/firewalld/configure.sh"
+
+    # - name: Bloque inventory != rdqm_hostname
+    #   when: inventory != rdqm_hostname
+    #   block:
+    #     - name: 'Crear gestor de colas en nodos secundarios (when: inventory != rdqm_hostname)'
+    #       ansible.builtin.command:
+    #         cmd: "/opt/mqm/bin/crtmqm -sxs -fs {{ tam_m }}M {{ nombre_gestor_colas }}"
+    #       register: command
+    #       changed_when: command.rc != 0

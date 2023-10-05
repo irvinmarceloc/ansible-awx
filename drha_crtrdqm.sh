@@ -5,15 +5,18 @@
 # $3: Puerto QM
 # $4: Nombre interfaz de IP flotante
 # $5: Tamaño QM = ${5:-1024M}
-# $6: Nombre Canal de comunicación = ${6:-SYSTEM.ADMIN.SVRCONN}
-# $7: Nombre Usuario Administrador = ${7:-mquser}
-# $8: Rango de IPs = ${8:-192.168.*.*}
+# $6: Nombre del grupo DR = ${6:-DR1}
+# $7: Puerto replicación DR = ${7:-7000}
+# $8: Nombre Canal de comunicación = ${6:-SYSTEM.ADMIN.SVRCONN}
+# $9: Nombre Usuario Administrador = ${7:-mquser}
 
 NOMBRE_QM={{nombre_gestor_colas}}
 IP_FLOTANTE={{ip_flotante}}
 PUERTO_QM={{puerto}}
 INTERFAZ={{interfaz}}
 TAMANO_QM={{tam_m}}M
+NOMBRE_GRUPO_DR={{nombre_grupo_dr}}
+PUERTO_DR={{puerto_dr}}
 NOMBRE_CANAL={{canal_de_conexion}}
 USUARIO_ADMINISTRADOR={{usuario}}
 
@@ -26,9 +29,9 @@ echo "Interfaz de red:              $INTERFAZ"
 echo "Tamaño del QM:                $TAMANO_QM"
 echo "Nombre del canal de conexión: $NOMBRE_CANAL"
 echo "Usuario administrador:        $USUARIO_ADMINISTRADOR"
-echo "Rango de IPs:                 $RANGO_IPS_EXTERNAS"
 
-/opt/mqm/bin/crtmqm -p $PUERTO_QM -fs $TAMANO_QM -sx $NOMBRE_QM
+# Creación DR/HA RDQM e IP flotante
+/opt/mqm/bin/crtmqm -sx -rr p -rn $NOMBRE_GRUPO_DR -rp $PUERTO_DR -fs $TAMANO_QM -p $PUERTO_QM $NOMBRE_QM
 /opt/mqm/bin/rdqmint -m $NOMBRE_QM -a -f $IP_FLOTANTE -l $INTERFAZ
 
 # Crear el canal

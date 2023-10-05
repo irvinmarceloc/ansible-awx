@@ -33,21 +33,21 @@
         # - name: Salida STDERR
         #   debug:
         #     var: ps.stderr_lines
-        - name: 'Copiar y rellenar template auths.sh'
-          ansible.builtin.template:
-            src: auths.sh
-            dest: /home/rdqmadmin/auths.sh
-            owner: rdqmadmin
-            mode: u=rwx,g=rwx,o=rwx
-          become: true
-          become_user: rdqmadmin
-        - name: 'Ejecutar comando de autorización'
-          ansible.builtin.command:
-            cmd: "sh /home/rdqmadmin/auths.sh"
-          become: true
-          become_user: rdqmadmin
-          register: command
-          changed_when: command.rc != 0
+        # - name: 'Copiar y rellenar template auths.sh'
+        #   ansible.builtin.template:
+        #     src: auths.sh
+        #     dest: /home/rdqmadmin/auths.sh
+        #     owner: rdqmadmin
+        #     mode: u=rwx,g=rwx,o=rwx
+        #   become: true
+        #   become_user: rdqmadmin
+        # - name: 'Ejecutar comando de autorización'
+        #   ansible.builtin.command:
+        #     cmd: "sh /home/rdqmadmin/auths.sh"
+        #   become: true
+        #   become_user: rdqmadmin
+        #   register: command
+        #   changed_when: command.rc != 0
     # - service:
     #     name: firewalld
     #     state: started

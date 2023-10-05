@@ -1,10 +1,12 @@
-NOMBRE_QM={{nombre_gestor_colas}}
-IP_FLOTANTE={{ip_flotante}}
-PUERTO_QM={{puerto}}
-INTERFAZ={{interfaz}}
-TAMANO_QM={{tam_m}}M
-NOMBRE_CANAL={{canal_de_conexion}}
-USUARIO_ADMINISTRADOR={{usuario}}
+NOMBRE_QM={{ nombre_gestor_colas }}
+IP_FLOTANTE={{ ip_flotante }}
+PUERTO_QM={{ puerto }}
+INTERFAZ={{ interfaz }}
+TAMANO_QM={{ tam_m }}M
+NOMBRE_CANAL={{ canal_de_conexion }}
+USUARIO_ADMINISTRADOR={{ usuario }}
+
+/opt/mqm/bin/rdqmint -m $NOMBRE_QM -a -f $IP_FLOTANTE -l $INTERFAZ
 
 # Crear el canal
 echo "DEFINE CHANNEL($NOMBRE_CANAL) CHLTYPE(SVRCONN) TRPTYPE(TCP)" | runmqsc $NOMBRE_QM

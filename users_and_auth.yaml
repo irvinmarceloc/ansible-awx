@@ -1,0 +1,37 @@
+---
+- hosts: all
+  name: Creación y autorización de usuario {{ user }}
+  vars:
+    nombre_gestor_colas: QM.ITAU.CALYPSO
+    ip_flotante: xx.xx.xx.xx
+    puerto: yy
+    interfaz: ensZZ
+    canal_de_conexion: SYSTEM.ADMIN.SVRCONN
+    usuario: alice
+    uid: 1010
+    password: 123
+    primario: mqslaveprd01.itau.com.py
+  tasks:
+    - name: 'Creación usuario {{ usuario }}'
+      ansible.builtin.user:
+        name: "{{ usuario }}"
+        shell: /bin/bash
+        uid: "{{ uid }}"
+        password: "{{ password | password_hash('sha512') }}"
+    - name: 'Copiar y rellenar template crtrdqm.sh'
+      ansible.builtin.template:
+        src: ./auth.sh
+        dest: /home/rdqmadmin/auth.sh
+        owner: rdqmadmin
+        group: mqm
+        mode: u=rwx,g=rwx,o=rwx
+      when: inventory_hostname == primario
+    - name: 'Ejecutar comandos de autorización para {{ usuario }}'
+      ansible.builtin.command:
+        cmd: "/home/rdqmadmin/auth.sh"
+      become: true
+      become_user: rdqmadmin
+      register: command
+      changed_when: command.rc != 0
+      when: inventory_hostname == primario
+...
