@@ -1,0 +1,13 @@
+- hosts: all
+  name: Creación y autorización de usuario
+  vars:
+    usuario: alice
+    password: 123
+    uid: 1010
+  tasks:
+    - name: 'Creación usuario {{ usuario }}'
+      ansible.builtin.user:
+        name: "{{ usuario }}"
+        shell: /bin/bash
+        uid: "{{ uid }}"
+        password: "{{ password | password_hash('sha512') }}"
