@@ -14,7 +14,7 @@ LOG_FILE=/home/rdqmadmin/drha_crtrdqm.log
 set -e
 
 echo -e "\e[96m====[ CREANDO RDQM $NOMBRE_QM ]=====\e[0m"
-echo "[$(date +%F%_H:%M:%S.%N)] ==================== Iniciada creación $NOMBRE_QM" >> crtdqm.log
+echo "[$(date +%F%_H:%M:%S.%N)] ==================== Iniciada creación $NOMBRE_QM" >> $LOG_FILE
 echo "IP Flotante:                  $IP_FLOTANTE"
 echo "Puerto:                       $PUERTO_QM"
 echo "Interfaz de red:              $INTERFAZ"
@@ -31,7 +31,7 @@ echo "[$(date +%F%_H:%M:%S.%N)] Manejador de colas $NOMBRE_QM creado" >> $LOG_FI
 echo "[$(date +%F%_H:%M:%S.%N)] IP flotante $IP_FLOTANTE ($INTERFAZ) asignado a $NOMBRE_QM" >> $LOG_FILE
 
 # Crear el canal
-echo "DEFINE CHANNEL($NOMBRE_CANAL) CHLTYPE(SVRCONN) TRPTYPE(TCP)" | runmqsc $NOMBRE_QM
+echo "DEFINE CHANNEL($NOMBRE_CANAL) CHLTYPE(SVRCONN) TRPTYPE(TCP)" | runmqsc -e $NOMBRE_QM
 echo "[$(date +%F%_H:%M:%S.%N)] Canal $NOMBRE_CANAL creado" >> $LOG_FILE
 
 # Estos mandatos otorgan a grupo '$USUARIO_ADMINISTRADOR' acceso administrativo completo en IBM MQ para UNIX y Linux.

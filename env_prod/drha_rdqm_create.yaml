@@ -2,15 +2,15 @@
 - name: Creación de DR/HA RDQM en sitios local y remoto
   hosts: all
   vars:
-    local_hostname: rdqm-node-1
-    remote_hostname: rdqm-node-4
-    nombre_gestor_colas: QM.ESPANA
-    ip_flotante: 192.168.238.230
-    puerto: 10000
+    local_hostname: rdqm-node-2
+    remote_hostname: rdqm-node-5
+    nombre_gestor_colas: QM.ESTANISLAO
+    ip_flotante: 192.168.238.231
+    puerto: 10001
     interfaz: ens161
     tam_m: 128
     nombre_grupo_dr: DR1
-    puerto_dr: 7000
+    puerto_dr: 7002
     canal_de_conexion: SYSTEM.ADMIN.SVRCONN
     usuario: mquser
     dr_remote_ips: "\

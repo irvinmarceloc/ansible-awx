@@ -2,7 +2,7 @@
 - hosts: all
   name: Creación y autorización de usuario {{ user }}
   vars:
-    nombre_gestor_colas: QM.ITAU.CALYPSO
+    nombre_gestor_colas: aaaaaa
     ip_flotante: xx.xx.xx.xx
     puerto: yy
     interfaz: ensZZ
