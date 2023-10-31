@@ -22,23 +22,7 @@
     {{hostvars[ansible_play_hosts_all[1]].rdqm_dr_replication_local}},\
     {{hostvars[ansible_play_hosts_all[2]].rdqm_dr_replication_local}}"
   tasks:
-    - name: Creación DR/HA RDQM en sitio local
-      when: inventory_hostname == local_hostname
-      block:
-        - name: 'Copiar y rellenar template drha_crtrdqm-local.sh'
-          ansible.builtin.template:
-            src: drha_crtrdqm-local.sh
-            dest: /home/rdqmadmin/mqsc.sh
-            owner: rdqmadmin
-            group: mqm
-            mode: u=rwx,g=rwx,o=rwx
-        - name: 'Ejecutar comandos de autorización'
-          command:
-            cmd: "/home/rdqmadmin/mqsc.sh"
-          become: true
-          become_user: rdqmadmin
-          # register: command
-          # changed_when: command.rc != 0
+
     - name: Creación DR/HA RDQM en sitio remoto
       when: inventory_hostname == remote_hostname
       block:
@@ -49,13 +33,32 @@
             owner: rdqmadmin
             group: mqm
             mode: u=rwx,g=rwx,o=rwx
-        - name: 'Ejecutar comandos de autorización'
+        - name: 'Crear QM y ejecutar comandos de autorización'
           command:
             cmd: "/home/rdqmadmin/mqsc.sh"
           become: true
           become_user: rdqmadmin
           # register: command
           # changed_when: command.rc != 0
+
+    - name: Creación DR/HA RDQM en sitio local
+      when: inventory_hostname == local_hostname
+      block:
+        - name: 'Copiar y rellenar template drha_crtrdqm-local.sh'
+          ansible.builtin.template:
+            src: drha_crtrdqm-local.sh
+            dest: /home/rdqmadmin/mqsc.sh
+            owner: rdqmadmin
+            group: mqm
+            mode: u=rwx,g=rwx,o=rwx
+        - name: 'Crear QM y ejecutar comandos de autorización'
+          command:
+            cmd: "/home/rdqmadmin/mqsc.sh"
+          become: true
+          become_user: rdqmadmin
+          # register: command
+          # changed_when: command.rc != 0
+
     # - name: Habilitar puerto por firewall {{ puerto }}
     #   ansible.posix.firewalld:
     #     port: "{{ puerto }}/tcp"
