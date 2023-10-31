@@ -37,8 +37,8 @@
             cmd: "/home/rdqmadmin/mqsc.sh"
           become: true
           become_user: rdqmadmin
-          register: command
-          changed_when: command.rc != 0
+          # register: command
+          # changed_when: command.rc != 0
     - name: Creación DR/HA RDQM en sitio remoto
       when: inventory_hostname == remote_hostname
       block:
@@ -54,14 +54,14 @@
             cmd: "/home/rdqmadmin/mqsc.sh"
           become: true
           become_user: rdqmadmin
-          register: command
-          changed_when: command.rc != 0
-    - name: Habilitar puerto por firewall {{ puerto }}
-      ansible.posix.firewalld:
-        port: "{{ puerto }}/tcp"
-        state: enabled
-        immediate: true
-        permanent: true
+          # register: command
+          # changed_when: command.rc != 0
+    # - name: Habilitar puerto por firewall {{ puerto }}
+    #   ansible.posix.firewalld:
+    #     port: "{{ puerto }}/tcp"
+    #     state: enabled
+    #     immediate: true
+    #     permanent: true
 
     # - service:
     #     name: firewalld
