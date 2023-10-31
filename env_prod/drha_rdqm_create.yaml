@@ -27,7 +27,7 @@
       block:
         - name: 'Crear QMs en nodos secundarios del sitio remoto'
           command:
-            cmd: "/opt/mqm/bin/crtmqm -sxs -rr s -rl {{ dr_remote_ips }} -ri {{ dr_local_ips }} -rp {{ puerto_dr }} -fs {{ tam_m }}M {{ nombre_gestor_colas }}"
+            cmd: "/opt/mqm/bin/crtmqm -sxs -rr s -rn {{ nombre_grupo_dr }} -rp {{ puerto_dr }} -fs {{ tam_m }}M {{ nombre_gestor_colas }}"
           become: true
           become_user: rdqmadmin
           # register: command
@@ -55,7 +55,7 @@
       block:
         - name: 'Crear QMs en nodos secundarios del sitio local'
           command:
-            cmd: "/opt/mqm/bin/crtmqm -sxs -rr p -rl {{ dr_local_ips }} -ri {{ dr_remote_ips }} -rp {{ puerto_dr }} -fs {{ tam_m }}M {{ nombre_gestor_colas }}"
+            cmd: "/opt/mqm/bin/crtmqm -sxs -rr p -rn {{ nombre_grupo_dr }} -rp {{ puerto_dr }} -fs {{ tam_m }}M {{ nombre_gestor_colas }}"
           become: true
           become_user: rdqmadmin
           # register: command

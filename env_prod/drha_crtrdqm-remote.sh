@@ -27,7 +27,7 @@ echo "Nombre del canal de conexión: $NOMBRE_CANAL"
 echo "Usuario administrador:        $USUARIO_ADMINISTRADOR"
 
 # Creación DR/HA RDQM e IP flotante
-/opt/mqm/bin/crtmqm -sx -rr s -rl $DR_REMOTE_IPS -ri $DR_LOCAL_IPS -rp $PUERTO_DR -fs $TAMANO_QM $NOMBRE_QM
+/opt/mqm/bin/crtmqm -sx -rr s -rn $NOMBRE_GRUPO_DR -rp $PUERTO_DR -fs $TAMANO_QM $NOMBRE_QM
 echo "[$(date +%F%_H:%M:%S.%N)] Manejador de colas $NOMBRE_QM creado" >> $LOG_FILE
 
 echo -e "\e[92m====[ RDQM $NOMBRE_QM CREADO ]=====\e[0m"
