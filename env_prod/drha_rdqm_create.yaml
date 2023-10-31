@@ -2,15 +2,15 @@
 - name: Creación de DR/HA RDQM en sitios local y remoto
   hosts: all
   vars:
-    local_hostname: rdqm-node-2
-    remote_hostname: rdqm-node-5
-    nombre_gestor_colas: QM.ESTANISLAO
-    ip_flotante: 192.168.238.231
-    puerto: 10001
+    local_hostname: rdqm-node-3
+    remote_hostname: rdqm-node-6
+    nombre_gestor_colas: QM.BRUGADA
+    ip_flotante: 192.168.238.232
+    puerto: 10002
     interfaz: ens192
     tam_m: 128
     nombre_grupo_dr: DR1
-    puerto_dr: 7002
+    puerto_dr: 7004
     canal_de_conexion: SYSTEM.ADMIN.SVRCONN
     usuario: mquser
     dr_remote_ips: "\
@@ -22,8 +22,15 @@
     {{hostvars[ansible_play_hosts_all[1]].rdqm_dr_replication_local}},\
     {{hostvars[ansible_play_hosts_all[2]].rdqm_dr_replication_local}}"
   tasks:
-
-    - name: Creación DR/HA RDQM en sitio remoto
+    - name: 'Creación de QMs secundarios en sitio remoto'
+      when: inventory_hostname != remote_hostname and inventory_hostname in groups["rdqm-dr"]
+      block:
+        - name: 'Crear QMs en nodos secundarios del sitio remoto'
+          command:
+            cmd: "/opt/mqm/bin/crtmqm -sxs -rr s -rl {{ dr_remote_ips }} -ri {{ dr_local_ips }} -rp {{ puerto_dr }} -fs {{ tam_m }}M {{ nombre_gestor_colas }}"
+          # register: command
+          # changed_when: command.rc != 0
+    - name: 'Creación QM principal en sitio remoto'
       when: inventory_hostname == remote_hostname
       block:
         - name: 'Copiar y rellenar template drha_crtrdqm-remote.sh a sitio local'
@@ -41,7 +48,15 @@
           # register: command
           # changed_when: command.rc != 0
 
-    - name: 'Creación DR/HA RDQM en sitio local'
+    - name: 'Creación de QMs secundarios en sitio local'
+      when: inventory_hostname != local_hostname and inventory_hostname in groups["rdqm"]
+      block:
+        - name: 'Crear QMs en nodos secundarios del sitio local'
+          command:
+            cmd: "/opt/mqm/bin/crtmqm -sxs -rr p -rl {{ dr_local_ips }} -ri {{ dr_remote_ips }} -rp {{ puerto_dr }} -fs {{ tam_m }}M {{ nombre_gestor_colas }}"
+          # register: command
+          # changed_when: command.rc != 0
+    - name: 'Creación QM principal en sitio local'
       when: inventory_hostname == local_hostname
       block:
         - name: 'Copiar y rellenar template drha_crtrdqm-local.sh a sitio local'
