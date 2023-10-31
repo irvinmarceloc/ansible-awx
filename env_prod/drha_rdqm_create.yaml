@@ -26,14 +26,14 @@
     - name: Creación DR/HA RDQM en sitio remoto
       when: inventory_hostname == remote_hostname
       block:
-        - name: 'Copiar y rellenar template drha_crtrdqm-remote.sh'
+        - name: 'Copiar y rellenar template drha_crtrdqm-remote.sh a sitio local'
           ansible.builtin.template:
             src: drha_crtrdqm-remote.sh
             dest: /home/rdqmadmin/mqsc.sh
             owner: rdqmadmin
             group: mqm
             mode: u=rwx,g=rwx,o=rwx
-        - name: 'Crear QM y ejecutar comandos de autorización'
+        - name: 'Crear QM y ejecutar comandos de autorización en sitio remoto'
           command:
             cmd: "/home/rdqmadmin/mqsc.sh"
           become: true
@@ -41,17 +41,17 @@
           # register: command
           # changed_when: command.rc != 0
 
-    - name: Creación DR/HA RDQM en sitio local
+    - name: 'Creación DR/HA RDQM en sitio local'
       when: inventory_hostname == local_hostname
       block:
-        - name: 'Copiar y rellenar template drha_crtrdqm-local.sh'
+        - name: 'Copiar y rellenar template drha_crtrdqm-local.sh a sitio local'
           ansible.builtin.template:
             src: drha_crtrdqm-local.sh
             dest: /home/rdqmadmin/mqsc.sh
             owner: rdqmadmin
             group: mqm
             mode: u=rwx,g=rwx,o=rwx
-        - name: 'Crear QM y ejecutar comandos de autorización'
+        - name: 'Crear QM y ejecutar comandos de autorización en sitio local'
           command:
             cmd: "/home/rdqmadmin/mqsc.sh"
           become: true
