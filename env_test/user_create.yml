@@ -1,5 +1,6 @@
 - hosts: all
   name: Creación y autorización de usuario
+  become: true
   vars:
     usuario: alice
     password: 123
