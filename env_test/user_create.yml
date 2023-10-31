@@ -9,6 +9,6 @@
     - name: 'Creación usuario {{ usuario }}'
       ansible.builtin.user:
         name: "{{ usuario }}"
-        shell: /bin/bash
+        shell: /dev/null
         uid: "{{ uid }}"
         password: "{{ password | password_hash('sha512') }}"
