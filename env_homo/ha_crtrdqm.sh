@@ -5,18 +5,14 @@
 # $3: Puerto QM
 # $4: Nombre interfaz de IP flotante
 # $5: Tamaño QM = ${5:-1024M}
-# $6: Nombre del grupo DR = ${6:-DR1}
-# $7: Puerto replicación DR = ${7:-7000}
-# $8: Nombre Canal de comunicación = ${6:-SYSTEM.ADMIN.SVRCONN}
-# $9: Nombre Usuario Administrador = ${7:-mquser}
+# $6: Nombre Canal de comunicación = ${6:-SYSTEM.ADMIN.SVRCONN}
+# $7: Nombre Usuario Administrador = ${7:-mquser}
 
 NOMBRE_QM={{nombre_gestor_colas}}
 IP_FLOTANTE={{ip_flotante}}
 PUERTO_QM={{puerto}}
 INTERFAZ={{interfaz}}
 TAMANO_QM={{tam_m}}M
-NOMBRE_GRUPO_DR={{nombre_grupo_dr}}
-PUERTO_DR={{puerto_dr}}
 NOMBRE_CANAL={{canal_de_conexion}}
 USUARIO_ADMINISTRADOR={{usuario}}
 
@@ -30,12 +26,11 @@ echo "Tamaño del QM:                $TAMANO_QM"
 echo "Nombre del canal de conexión: $NOMBRE_CANAL"
 echo "Usuario administrador:        $USUARIO_ADMINISTRADOR"
 
-# Creación DR/HA RDQM e IP flotante
-/opt/mqm/bin/crtmqm -sx -rr p -rn $NOMBRE_GRUPO_DR -rp $PUERTO_DR -fs $TAMANO_QM -p $PUERTO_QM $NOMBRE_QM
+/opt/mqm/bin/crtmqm -p $PUERTO_QM -fs $TAMANO_QM -sx $NOMBRE_QM
 /opt/mqm/bin/rdqmint -m $NOMBRE_QM -a -f $IP_FLOTANTE -l $INTERFAZ
 
 # Crear el canal
-echo "DEFINE CHANNEL($NOMBRE_CANAL) CHLTYPE(SVRCONN) TRPTYPE(TCP)" | runmqsc $NOMBRE_QM
+echo "DEFINE CHANNEL($NOMBRE_CANAL) CHLTYPE(SVRCONN) TRPTYPE(TCP)" | runmqsc -e $NOMBRE_QM
 
 # Estos mandatos otorgan a grupo '$USUARIO_ADMINISTRADOR' acceso administrativo completo en IBM MQ para UNIX y Linux.
 /opt/mqm/bin/setmqaut -m $NOMBRE_QM -t qmgr -g "$USUARIO_ADMINISTRADOR" +connect +inq +alladm
@@ -53,6 +48,8 @@ echo "DEFINE CHANNEL($NOMBRE_CANAL) CHLTYPE(SVRCONN) TRPTYPE(TCP)" | runmqsc $NO
 # Los siguientes mandatos proporcionan acceso administrativo para MQ Explorer.
 /opt/mqm/bin/setmqaut -m $NOMBRE_QM -n SYSTEM.MQEXPLORER.REPLY.MODEL -t q -g "$USUARIO_ADMINISTRADOR" +dsp +inq +get
 /opt/mqm/bin/setmqaut -m $NOMBRE_QM -n SYSTEM.ADMIN.COMMAND.QUEUE -t q -g "$USUARIO_ADMINISTRADOR" +dsp +inq +put
+
+
 
 # Actualizar políticas de seguridad
 echo "REFRESH SECURITY(*)" | runmqsc $NOMBRE_QM

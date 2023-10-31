@@ -54,9 +54,12 @@
     #     enabled: true
     # - command:
     #     cmd: "sh /opt/mqm/samp/rdqm/firewalld/configure.sh"
-    - name: Habilitar el puerto {{ puerto }}
-      ansible.posix.firewalld:
-        port: "{{ puerto }}/tcp"
-        state: enabled
-        immediate: true
-        permanent: true
+    
+    ##### PUERTO DE FIREWALL
+    # - name: Habilitar el puerto {{ puerto }}
+    #   ansible.posix.firewalld:
+    #     port: "{{ puerto }}/tcp"
+    #     state: enabled
+    #     immediate: true
+    #     permanent: true
+...

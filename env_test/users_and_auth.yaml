@@ -18,7 +18,7 @@
         shell: /bin/bash
         uid: "{{ uid }}"
         password: "{{ password | password_hash('sha512') }}"
-    - name: 'Copiar y rellenar template crtrdqm.sh'
+    - name: 'Copiar y rellenar template auth.sh'
       ansible.builtin.template:
         src: ./auth.sh
         dest: /home/rdqmadmin/auth.sh
@@ -26,7 +26,7 @@
         group: mqm
         mode: u=rwx,g=rwx,o=rwx
       when: inventory_hostname == primario
-    - name: 'Ejecutar comandos de autorización para {{ usuario }}'
+    - name: 'Ejecutar comandos de autorización administrativa para {{ usuario }}'
       ansible.builtin.command:
         cmd: "/home/rdqmadmin/auth.sh"
       become: true
