@@ -3,8 +3,8 @@
   become: true
   vars:
     usuario: alice
-    password: 123
-    uid: 1010
+    password: "123"
+    uid: 2000
   tasks:
     - name: 'Creación usuario {{ usuario }}'
       ansible.builtin.user:
