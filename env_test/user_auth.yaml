@@ -1,0 +1,26 @@
+- name: Creación y autorización de usuario {{ user }}
+  hosts: all
+  vars:
+    nombre_gestor_colas: aaaaaa
+    ip_flotante: xx.xx.xx.xx
+    puerto: yy
+    interfaz: ensZZ
+    canal_de_conexion: SYSTEM.ADMIN.SVRCONN
+    primario: mqslaveprd01.itau.com.py
+  tasks:
+    - name: 'Copiar y rellenar template auth.sh'
+      when: inventory_hostname == primario
+      ansible.builtin.template:
+        src: ./auth.sh
+        dest: /home/rdqmadmin/auth.sh
+        owner: rdqmadmin
+        group: mqm
+        mode: u=rwx,g=rwx,o=rwx
+    - name: 'Ejecutar comandos de autorización administrativa para {{ usuario }}'
+      when: inventory_hostname == primario
+      ansible.builtin.command:
+        cmd: "/home/rdqmadmin/auth.sh"
+      become: true
+      become_user: rdqmadmin
+      register: command
+      changed_when: command.rc != 0

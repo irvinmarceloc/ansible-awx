@@ -1,12 +1,12 @@
-- hosts: all
-  name: Creación y autorización de usuario
+- name: Creación de usuario
+  hosts: all
   become: true
   vars:
     usuario: alice
     password: "123"
     uid: 2000
   tasks:
-    - name: 'Creación usuario {{ usuario }}'
+    - name: 'Creación de usuario {{ usuario }}'
       ansible.builtin.user:
         name: "{{ usuario }}"
         shell: /bin/bash
