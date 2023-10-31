@@ -7,7 +7,7 @@
     nombre_gestor_colas: QM.ESTANISLAO
     ip_flotante: 192.168.238.231
     puerto: 10001
-    interfaz: ens161
+    interfaz: ens192
     tam_m: 128
     nombre_grupo_dr: DR1
     puerto_dr: 7002
