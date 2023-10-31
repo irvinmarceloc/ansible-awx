@@ -33,7 +33,7 @@
             group: mqm
             mode: u=rwx,g=rwx,o=rwx
         - name: 'Ejecutar comandos de autorización'
-          ansible.builtin.command:
+          command:
             cmd: "/home/rdqmadmin/mqsc.sh"
           become: true
           become_user: rdqmadmin
@@ -50,7 +50,7 @@
             group: mqm
             mode: u=rwx,g=rwx,o=rwx
         - name: 'Ejecutar comandos de autorización'
-          ansible.builtin.command:
+          command:
             cmd: "/home/rdqmadmin/mqsc.sh"
           become: true
           become_user: rdqmadmin
