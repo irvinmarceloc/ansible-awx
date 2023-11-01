@@ -10,7 +10,7 @@
     interfaz: ens161
     tam_m: 128
     nombre_grupo_dr: DR1
-    puerto_dr: 7010
+    puerto_dr: 7000
     canal_de_conexion: SYSTEM.ADMIN.SVRCONN
     usuario: mquser
     dr_remote_ips: "\
