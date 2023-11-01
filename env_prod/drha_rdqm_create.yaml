@@ -22,12 +22,30 @@
     {{hostvars[ansible_play_hosts_all[1]].rdqm_dr_replication_local}},\
     {{hostvars[ansible_play_hosts_all[2]].rdqm_dr_replication_local}}"
   tasks:
-    - name: 'Creación de QMs secundarios en sitio remoto'
-      when: inventory_hostname != remote_hostname and inventory_hostname in groups["rdqm-dr"]
+    # - name: 'Creación de QMs secundarios en sitio remoto'
+    #   when: inventory_hostname != remote_hostname and inventory_hostname in groups["rdqm-dr"]
+    #   block:
+    #     - name: 'Crear QMs en nodos secundarios del sitio remoto'
+    #       command:
+    #         cmd: "/opt/mqm/bin/crtmqm -sxs -rr s -rl {{ dr_remote_ips }} -ri {{ dr_local_ips }} -rp {{ puerto_dr }} -fs {{ tam_m }}M {{ nombre_gestor_colas }}"
+    #       become: true
+    #       become_user: rdqmadmin
+    #       # register: command
+    #       # changed_when: command.rc != 0
+
+    - name: 'Creación QM principal en sitio local'
+      when: inventory_hostname == local_hostname
       block:
-        - name: 'Crear QMs en nodos secundarios del sitio remoto'
+        - name: 'Copiar y rellenar template drha_crtrdqm-local.sh a sitio local'
+          ansible.builtin.template:
+            src: drha_crtrdqm-local.sh
+            dest: /home/rdqmadmin/mqsc.sh
+            owner: rdqmadmin
+            group: mqm
+            mode: u=rwx,g=rwx,o=rwx
+        - name: 'Crear QM y ejecutar comandos de autorización en sitio local'
           command:
-            cmd: "/opt/mqm/bin/crtmqm -sxs -rr s -rl {{ dr_remote_ips }} -ri {{ dr_local_ips }} -rp {{ puerto_dr }} -fs {{ tam_m }}M {{ nombre_gestor_colas }}"
+            cmd: "/home/rdqmadmin/mqsc.sh"
           become: true
           become_user: rdqmadmin
           # register: command
@@ -62,34 +80,16 @@
     #       # register: command
     #       # changed_when: command.rc != 0
 
-    - name: 'Creación de QMs secundarios en sitio local'
-      when: inventory_hostname != local_hostname and inventory_hostname in groups["rdqm"]
-      block:
-        - name: 'Crear QMs en nodos secundarios del sitio local'
-          command:
-            cmd: "/opt/mqm/bin/crtmqm -sxs -rr p -rl {{ dr_local_ips }} -ri {{ dr_remote_ips }} -rp {{ puerto_dr }} -fs {{ tam_m }}M {{ nombre_gestor_colas }}"
-          become: true
-          become_user: rdqmadmin
-          # register: command
-          # changed_when: command.rc != 0
-    
-    - name: 'Creación QM principal en sitio local'
-      when: inventory_hostname == local_hostname
-      block:
-        - name: 'Copiar y rellenar template drha_crtrdqm-local.sh a sitio local'
-          ansible.builtin.template:
-            src: drha_crtrdqm-local.sh
-            dest: /home/rdqmadmin/mqsc.sh
-            owner: rdqmadmin
-            group: mqm
-            mode: u=rwx,g=rwx,o=rwx
-        - name: 'Crear QM y ejecutar comandos de autorización en sitio local'
-          command:
-            cmd: "/home/rdqmadmin/mqsc.sh"
-          become: true
-          become_user: rdqmadmin
-          # register: command
-          # changed_when: command.rc != 0
+    # - name: 'Creación de QMs secundarios en sitio local'
+    #   when: inventory_hostname != local_hostname and inventory_hostname in groups["rdqm"]
+    #   block:
+    #     - name: 'Crear QMs en nodos secundarios del sitio local'
+    #       command:
+    #         cmd: "/opt/mqm/bin/crtmqm -sxs -rr p -rl {{ dr_local_ips }} -ri {{ dr_remote_ips }} -rp {{ puerto_dr }} -fs {{ tam_m }}M {{ nombre_gestor_colas }}"
+    #       become: true
+    #       become_user: rdqmadmin
+    #       # register: command
+    #       # changed_when: command.rc != 0
     
     # - name: 'Creación de QM principal en sitio local'
     #   when: inventory_hostname == local_hostname
