@@ -23,7 +23,7 @@ echo "Nombre del canal de conexión: $NOMBRE_CANAL"
 echo "Usuario administrador:        $USUARIO_ADMINISTRADOR"
 
 # Creación DR/HA RDQM e IP flotante
-/opt/mqm/bin/crtmqm -sx -rr p -rn $NOMBRE_GRUPO_DR -rp $PUERTO_DR -fs "$TAMANO_QM"M -p $PUERTO_QM $NOMBRE_QM
+/opt/mqm/bin/crtmqm -sx -rr p -rn $NOMBRE_GRUPO_DR -rp $PUERTO_DR -fs $TAMANO_QM -p $PUERTO_QM $NOMBRE_QM
 echo "[$(date +%F%_H:%M:%S.%N)] Manejador de colas $NOMBRE_QM creado" >> $LOG_FILE
 
 # Asignación IP flotante 
