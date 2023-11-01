@@ -1,0 +1,3 @@
+# TO DOs
+- [ ] Mejores nombres de variables ("local" -> "principal"; "remoto" -> "recuperacion")
+- [ ] Mover creación de usuarios y autorizacion a prod y testing

@@ -1,12 +1,23 @@
 # Registro de cambios
-## Hasta la fecha 2023-10-25
+## 2023-10-31
+### Testing
+- Creados `user_create.yaml` y `user_auth.yaml`
+  - `user_create.yaml`: Crea un usuario de SO
+  - `user_auth.yaml`: Asigna un usuario de SO como administrador de un QM y actualiza la autorización del MQ Explorer
+
+### Producción
+- Separada la creación de gestores de cola primarios y secundarios en sitios principal y de recuperación. Ya no se requiere SSH entre máquinas.
+
+## 2023-10-25
 ### General
 - Se reordenaron los archivos en carpetas cuyos nombres hacen referencia a los entornos de ejecución
   - `env_test/`: Testing
   - `env_homo/`: Homologación
   - `env_prod/`: Producción
+
 ### Homologación
 - Se eliminó (comentó) la tarea de apertura del puerto de firewall del gestor de colas.
+
 ### Producción
 - Se modificó `ha_crtrdqm.sh` para crear los scripts `drha_crtrdqm-local.sh` y `drha_crtrdqm-remoto.sh`.
   - `drha_crtrdqm-local.sh`:
