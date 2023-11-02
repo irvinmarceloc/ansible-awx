@@ -1,0 +1,25 @@
+# Configuración de nodos
+local_hostname: rdqm-node-3
+remote_hostname: rdqm-node-6
+interfaz: ens161
+nombre_grupo_dr: DR1
+habilitar_firewall: false
+
+# Configuración gestor de colas
+nombre_gestor_colas: QM.CANCUN
+ip_flotante: 192.168.238.238
+puerto: 10009
+tam_m: 128
+puerto_dr: 7018
+canal_de_conexion: SYSTEM.ADMIN.SVRCONN
+usuario: mquser
+
+# Variables estáticas ### NO TOCAR ###
+dr_remote_ips: "\
+{{ hostvars[ansible_play_hosts_all[0]].rdqm_dr_replication_remote }},\
+{{ hostvars[ansible_play_hosts_all[1]].rdqm_dr_replication_remote }},\
+{{ hostvars[ansible_play_hosts_all[2]].rdqm_dr_replication_remote }}"
+dr_local_ips: "\
+{{ hostvars[ansible_play_hosts_all[0]].rdqm_dr_replication_local }},\
+{{ hostvars[ansible_play_hosts_all[1]].rdqm_dr_replication_local }},\
+{{ hostvars[ansible_play_hosts_all[2]].rdqm_dr_replication_local }}"

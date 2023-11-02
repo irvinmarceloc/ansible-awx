@@ -1,4 +1,8 @@
 # Registro de cambios
+## 2023-11-2
+- Recreado inventario con formato YAML
+- Separados variables de playbook en `config.yaml`
+
 ## 2023-10-31
 ### Testing
 - Creados `user_create.yaml` y `user_auth.yaml`

@@ -9,7 +9,7 @@ NOMBRE_GRUPO_DR={{ nombre_grupo_dr }}
 PUERTO_DR={{ puerto_dr }}
 NOMBRE_CANAL={{ canal_de_conexion }}
 USUARIO_ADMINISTRADOR={{ usuario }}
-LOG_FILE=/home/rdqmadmin/crtrdm.log
+LOG_FILE=/home/rdqmadmin/drha_crtrdqm.log
 
 DR_REMOTE_IPS={{ dr_remote_ips }}
 DR_LOCAL_IPS={{ dr_local_ips }}
@@ -31,4 +31,4 @@ echo "Usuario administrador:        $USUARIO_ADMINISTRADOR"
 echo "[$(date +%F%_H:%M:%S.%N)] Manejador de colas $NOMBRE_QM creado" >> $LOG_FILE
 
 echo -e "\e[92m====[ RDQM $NOMBRE_QM CREADO ]=====\e[0m"
-echo "[$(date +%F%_H:%M:%S.%N)] ==================== Finalizada creaación $NOMBRE_QM" >> $LOG_FILE
+echo "[$(date +%F%_H:%M:%S.%N)] ==================== Finalizada creación $NOMBRE_QM" >> $LOG_FILE
