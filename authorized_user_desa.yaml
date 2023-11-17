@@ -12,6 +12,5 @@
     - name: 'Ejecutar comandos de autorización'
       ansible.builtin.command:
         cmd: "/home/mqm/authorized_user.sh"
-      become: true
       become_user: mqm
  ...
