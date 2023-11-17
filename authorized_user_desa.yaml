@@ -10,7 +10,6 @@
         group: mqm
         mode: u=rwx,g=rwx,o=rwx
     - name: 'Ejecutar comandos de autorización'
-      ansible.builtin.command:
-        cmd: /var/mqm/authorized_user.sh
+      ansible.builtin.shell: /var/mqm/authorized_user.sh
       become_user: mqm
 ...
