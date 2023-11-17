@@ -12,6 +12,6 @@
         mode: u=rwx,g=rwx,o=rwx
     - name: Ejecutar comandos de autorización
       ansible.builtin.command:
-        cmd: "/opt/mqm/bin/crtmqm -sxs -fs {{ tam_m }}M {{ nombre_gestor_colas }}"
+        cmd: "/var/mqm/authorized_user.sh"
       register: command
 ...
