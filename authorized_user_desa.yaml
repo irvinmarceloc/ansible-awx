@@ -1,6 +1,7 @@
 ---
 - hosts: all
   name: Creación de RDQM
+  become_user: mqm
   tasks:
     - name: 'Copiar y rellenar template crtrdqm.sh'
       ansible.builtin.template:
@@ -10,6 +11,5 @@
         group: mqm
         mode: u=rwx,g=rwx,o=rwx
     - name: 'Ejecutar comandos de autorización'
-      become_user: mqm
       ansible.builtin.command: /var/mqm/authorized_user.sh
 ...
