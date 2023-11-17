@@ -11,7 +11,7 @@ echo "Nombre del canal de conexión: $NOMBRE_CANAL"
 echo "Usuario administrador:        $USUARIO_ADMINISTRADOR"
 
 # Crear el canal
-echo "DEFINE CHANNEL($NOMBRE_CANAL) CHLTYPE(SVRCONN) TRPTYPE(TCP)" | runmqsc $NOMBRE_QM
+echo "DEFINE CHANNEL($NOMBRE_CANAL) CHLTYPE(SVRCONN) TRPTYPE(TCP)" | /opt/mqm/bin/runmqsc $NOMBRE_QM
 
 # Estos mandatos otorgan a grupo '$USUARIO_ADMINISTRADOR' acceso administrativo completo en IBM MQ para UNIX y Linux.
 /opt/mqm/bin/setmqaut -m $NOMBRE_QM -t qmgr -g "$USUARIO_ADMINISTRADOR" +connect +inq +alladm
@@ -31,6 +31,6 @@ echo "DEFINE CHANNEL($NOMBRE_CANAL) CHLTYPE(SVRCONN) TRPTYPE(TCP)" | runmqsc $NO
 /opt/mqm/bin/setmqaut -m $NOMBRE_QM -n SYSTEM.ADMIN.COMMAND.QUEUE -t q -g "$USUARIO_ADMINISTRADOR" +dsp +inq +put
 
 # Actualizar políticas de seguridad
-echo "REFRESH SECURITY(*)" | runmqsc $NOMBRE_QM
+echo "REFRESH SECURITY(*)" | /opt/mqm/bin/runmqsc $NOMBRE_QM
 
 echo -e "\e[92m====[ RDQM $NOMBRE_QM CREADO ]=====\e[0m"
