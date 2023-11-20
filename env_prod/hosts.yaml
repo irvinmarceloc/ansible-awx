@@ -3,32 +3,32 @@ rdqm:
     rdqm-node-1:
       ansible_host: 192.168.238.165
       rdqm_ha_replication: 192.168.238.166
-      rdqm_dr_replication_local: 192.168.238.156
-      rdqm_dr_replication_remote: 192.168.238.157
+      rdqm_dr_replication_principal: 192.168.238.156
+      rdqm_dr_replication_contingencia: 192.168.238.157
     rdqm-node-2:
       ansible_host: 192.168.238.162
       rdqm_ha_replication: 192.168.238.164
-      rdqm_dr_replication_local: 192.168.238.171
-      rdqm_dr_replication_remote: 192.168.238.172
+      rdqm_dr_replication_principal: 192.168.238.171
+      rdqm_dr_replication_contingencia: 192.168.238.172
     rdqm-node-3:
       ansible_host: 192.168.238.153
       rdqm_ha_replication: 192.168.238.161
-      rdqm_dr_replication_local: 192.168.238.175
-      rdqm_dr_replication_remote: 192.168.238.176
+      rdqm_dr_replication_principal: 192.168.238.175
+      rdqm_dr_replication_contingencia: 192.168.238.176
 rdqm-dr:
   hosts:
     rdqm-node-4:
       ansible_host: 192.168.238.155
       rdqm_ha_replication: 192.168.238.168
-      rdqm_dr_replication_local: 192.168.238.156
-      rdqm_dr_replication_remote: 192.168.238.157
+      rdqm_dr_replication_principal: 192.168.238.156
+      rdqm_dr_replication_contingencia: 192.168.238.157
     rdqm-node-5:
       ansible_host: 192.168.238.170
       rdqm_ha_replication: 192.168.238.173
-      rdqm_dr_replication_local: 192.168.238.171
-      rdqm_dr_replication_remote: 192.168.238.172
+      rdqm_dr_replication_principal: 192.168.238.171
+      rdqm_dr_replication_contingencia: 192.168.238.172
     rdqm-node-6:
       ansible_host: 192.168.238.174
       rdqm_ha_replication: 192.168.238.177
-      rdqm_dr_replication_local: 192.168.238.175
-      rdqm_dr_replication_remote: 192.168.238.15
+      rdqm_dr_replication_principal: 192.168.238.175
+      rdqm_dr_replication_contingencia: 192.168.238.15

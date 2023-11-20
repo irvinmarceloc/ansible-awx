@@ -1,9 +1,14 @@
 # Registro de cambios
-## 2023-11-2
-- Recreado inventario con formato YAML
+## 2023-11-06
+### Producción v0.3.1
+- Renombrados sitios "local" -> "principal, "remoto" -> "contingencia"
+
+## 2023-11-2 v0.3.0
+### Producción
+- Recreado inventario con formato YAML. El archivo `hosts.ini` ha quedado obsoleto. Ahora se recomienda el uso de `hosts.yaml`
 - Separados variables de playbook en `config.yaml`
 
-## 2023-10-31
+## 2023-10-31 v0.2.0
 ### Testing
 - Creados `user_create.yaml` y `user_auth.yaml`
   - `user_create.yaml`: Crea un usuario de SO
@@ -12,7 +17,7 @@
 ### Producción
 - Separada la creación de gestores de cola primarios y secundarios en sitios principal y de recuperación. Ya no se requiere SSH entre máquinas.
 
-## 2023-10-25
+## 2023-10-25 v0.1.0
 ### General
 - Se reordenaron los archivos en carpetas cuyos nombres hacen referencia a los entornos de ejecución
   - `env_test/`: Testing

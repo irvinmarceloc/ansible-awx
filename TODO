@@ -1,4 +1,4 @@
 # TO DOs
-- [ ] Mejores nombres de variables ("local" -> "principal"; "remoto" -> "recuperacion")
-- [ ] Mover creación de usuarios y autorizacion a prod y testing
-- [ ] En ITAU: Forzar la variable interfaz a ens192
+- [x] Mejores nombres de variables ("local" -> "principal"; "remoto" -> "recuperacion").
+- [x] Mover creación de usuarios y autorizacion a prod y testing.
+- [ ] Balanceo de gestores nuevos. Utilizar el output de `dspmq` para contar el número de gestores de cola por nodo y elegir el nodo con menor número de QMs para crear un gestor nuevo. Con esto se consigue eliminar la elección de nodo principal de QMs.

@@ -11,8 +11,9 @@ NOMBRE_CANAL={{ canal_de_conexion }}
 USUARIO_ADMINISTRADOR={{ usuario }}
 LOG_FILE=/home/rdqmadmin/drha_crtrdqm.log
 
-DR_REMOTE_IPS={{ dr_remote_ips }}
-DR_LOCAL_IPS={{ dr_local_ips }}
+# Nótese la diferencia con el sitio de contingencia
+DR_LOCAL_IPS={{ dr_principal_ips }}
+DR_REMOTE_IPS={{ dr_contingencia_ips }}
 PUERTO_DR={{ puerto_dr }}
 
 set -e

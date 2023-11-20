@@ -11,8 +11,9 @@ NOMBRE_CANAL={{ canal_de_conexion }}
 USUARIO_ADMINISTRADOR={{ usuario }}
 LOG_FILE=/home/rdqmadmin/drha_crtrdqm.log
 
-DR_REMOTE_IPS={{ dr_remote_ips }}
-DR_LOCAL_IPS={{ dr_local_ips }}
+# Nótese la diferencia con el sitio principal
+DR_LOCAL_IPS={{ dr_contingencia_ips }}
+DR_REMOTO_IPS={{ dr_principal_ips }}
 PUERTO_DR={{ puerto_dr }}
 
 set -e
@@ -27,7 +28,7 @@ echo "Nombre del canal de conexión: $NOMBRE_CANAL"
 echo "Usuario administrador:        $USUARIO_ADMINISTRADOR"
 
 # Creación DR/HA RDQM e IP flotante
-/opt/mqm/bin/crtmqm -sx -rr s -rl $DR_REMOTE_IPS -ri $DR_LOCAL_IPS -rp $PUERTO_DR -fs $TAMANO_QM $NOMBRE_QM
+/opt/mqm/bin/crtmqm -sx -rr s -rl $DR_LOCAL_IPS -ri $DR_REMOTO_IPS -rp $PUERTO_DR -fs $TAMANO_QM $NOMBRE_QM
 echo "[$(date +%F%_H:%M:%S.%N)] Manejador de colas $NOMBRE_QM creado" >> $LOG_FILE
 
 echo -e "\e[92m====[ RDQM $NOMBRE_QM CREADO ]=====\e[0m"

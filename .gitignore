@@ -1,3 +1,3 @@
-hosts.ini
-ansible.out
-ansible.cfg
+*.ini
+*.cfg
+*.out

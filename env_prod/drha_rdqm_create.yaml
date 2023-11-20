@@ -1,35 +1,35 @@
 ---
-- name: Creación de DR/HA RDQM en sitios local y remoto
+- name: Creación de DR/HA RDQM en sitios principal y contingencia
   hosts: all
   vars_files:
     - config.yaml
   tasks:
-    - name: 'Creación QM principal en sitio local'
-      when: inventory_hostname == local_hostname
+    - name: 'Creación QM principal en sitio principal'
+      when: inventory_hostname == principal_hostname
       block:
-        - name: 'Copiar y rellenar template drha_crtrdqm-local.sh a sitio local'
+        - name: 'Copiar y rellenar template drha_crtrdqm-principal.sh a sitio principal'
           ansible.builtin.template:
-            src: drha_crtrdqm-local.sh
+            src: drha_crtrdqm-principal.sh
             dest: /home/rdqmadmin/mqsc.sh
             owner: rdqmadmin
             group: mqm
             mode: u=rwx,g=rwx,o=rwx
-        - name: 'Crear QM y ejecutar comandos de autorización en sitio local'
+        - name: 'Crear QM y ejecutar comandos de autorización en sitio principal'
           command:
             cmd: "/home/rdqmadmin/mqsc.sh"
           become: true
           become_user: rdqmadmin
-    - name: 'Creación QM principal en sitio remoto'
-      when: inventory_hostname == remote_hostname
+    - name: 'Creación QM principal en sitio contingencia'
+      when: inventory_hostname == contingencia_hostname
       block:
-        - name: 'Copiar y rellenar template drha_crtrdqm-remote.sh a sitio remoto'
+        - name: 'Copiar y rellenar template drha_crtrdqm-contingencia.sh a sitio contingencia'
           ansible.builtin.template:
-            src: drha_crtrdqm-remote.sh
+            src: drha_crtrdqm-contingencia.sh
             dest: /home/rdqmadmin/mqsc.sh
             owner: rdqmadmin
             group: mqm
             mode: u=rwx,g=rwx,o=rwx
-        - name: 'Crear QM y ejecutar comandos de autorización en sitio remoto'
+        - name: 'Crear QM y ejecutar comandos de autorización en sitio contingencia'
           command:
             cmd: "/home/rdqmadmin/mqsc.sh"
           become: true
